@@ -1,0 +1,30 @@
+<project name="Build">
+	<!-- set global properties for this build -->
+	<property name="ant.dir" location="../../ant"/>
+	<property name="targets.dir" location="{$ant.dir}/targets"/>
+
+	<target name="prepare" description="Prepare to install; checks dependencies" >
+		<echo>Preparing to install new Build...</echo>
+		<!-- Check environment properties, fail if not installable -->
+		<!-- Check software environment -->
+	</target>
+
+	<target name="build">
+		<echo>Not a conventional project, nothing to build here. Target "install" if your projects don't build.</echo>
+	</target>
+
+	<target name="jar" depends="build">
+	</target>
+
+	<target name="install" depends="prepare, remove-old" description="Installs the Ant Build" >
+		<!-- Create the time stamp -->
+		<tstamp/>
+		<!-- Create directory structure -->
+		<mkdir dir="${ant.dir}" />
+		<mkdir dir="${targets.dir}" />
+	</target>
+
+	<target name="remove-old" description="Removes the old Build" >
+		<delete dir="${ant.dir}"/>
+	</target>
+</project>
