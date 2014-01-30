@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="kaffee.build" basedir="." default="build">
+	<!-- System config -->
+	<property file="config/system.properties" />
+	<!-- Environment config -->
+	<property file="config/environment.properties" />
+	<!-- User settings -->
+	<property file="config/user.properties" />
+
+	<!-- Project config -->
+	<property file="${PROJECT_DIR}/config/project.properties" />
+	<!-- Build -->
+	<property file="${PROJECT_DIR}/config/build.properties" />
+
+	<!-- Further targets -->
+	<import file="${TARGETS_DIR}/css.xml" />
+	<import file="${TARGETS_DIR}/js.xml" />
+	<import file="${TARGETS_DIR}/php.xml" />
+	<import file="${TARGETS_DIR}/etc.xml" />
+	<import file="${TARGETS_DIR}/db.xml" />
+	<import file="${TARGETS_DIR}/deploy.xml" />
+
+	<!-- Deletes the existing build, docs and dist directory-->
+	<target name="clean">
+		<antcall target="kaffee.php.clean-php" />
+		<antcall target="kaffee.css.clean-css" />
+		<antcall target="kaffee.js.clean-js" />
+		<delete dir="${PROJECT.BUILD_DIR}" />
+	</target>
+
+	<!-- Continues install from the point ant is available-->
+	<target name="init">
+		<!-- ant is already there -->
+		<mkdir dir="${CSS_DIR}" />
+		<mkdir dir="${DOC_DIR}" />
+		<mkdir dir="${DESIGN_DIR}" />
+		<mkdir dir="${ETC_DIR}" />
+		<mkdir dir="${HTML_DIR}" />
+		<mkdir dir="${IMAGE_DIR}" />
+		<mkdir dir="${JS_DIR}" />
+		<mkdir dir="${PHP_DIR}" />
+		<mkdir dir="${SQL_DIR}" />
+	</target>
+
+	<target name="build" depends="">
+		<antcall target="kaffee.etc.build-etc" />
+		<copy todir="${build.dir}">
+			<fileset dir="${image.dir}" />
+		</copy>
+		<antcall target="kaffee.db.build-db" />
+		<antcall target="kaffee.php.build-php" />
+		<antcall target="kaffee.css.build-css" />
+		<antcall target="kaffee.js.build-js" />
+	</target>
+
+	<target name="refresh" depends="clean, build" />
+
+</project>

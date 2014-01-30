@@ -1,0 +1,25 @@
+<project name="kaffee" default="build">
+
+	<!-- set global properties for this build -->
+	<propertyfile file="project.properties" />
+	<property name="src.dir" location="php"/>
+	<property name="build.dir" location="../../build"/>
+	<property name="dist.dir"  location="../../dist"/>
+	<property name="temp.dir"  location="../../tmp"/>
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp/>
+		<!-- Create directory structure -->
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${temp.dir}"/>
+	</target>
+
+	<target name="clean"
+			description="clean up" >
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+		<delete dir="${temp.dir}"/>
+	</target>
+</project>

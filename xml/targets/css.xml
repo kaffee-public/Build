@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="kaffee.css" basedir="." default="build">
+
+	<target name="kaffee.css.build" depends="">
+		<!-- YUI compressor -->
+		<copy todir="${build.dir}">
+			<fileset dir="${css.dir}" />
+		</copy>
+	</target>
+
+	<target name="kaffee.css.refresh" depends="clean, build" />
+
+	<target name="kaffee.css.clean" depends="">
+
+	</target>
+
+</project>
