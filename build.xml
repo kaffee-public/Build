@@ -1,30 +1,44 @@
-<project name="Build">
-	<!-- set global properties for this build -->
-	<property name="ant.dir" location="../../ant"/>
-	<property name="targets.dir" location="{$ant.dir}/targets"/>
+<project name="Build" description="Packs up the environment">
+    <target name="prepare" description="Prepare to install; checks dependencies" >
+        <echo>Preparing to build...</echo>
+        <!-- Check environment properties, fail if not installable -->
+        <!-- Check software environment -->
+    </target>
 
-	<target name="prepare" description="Prepare to install; checks dependencies" >
-		<echo>Preparing to install new Build...</echo>
-		<!-- Check environment properties, fail if not installable -->
-		<!-- Check software environment -->
-	</target>
+    <target name="build">
+        <tstamp />
+        <property name="source.dir"  location="/" />
+        <property name="work.dir"  location="${build.dir}/temp/environment-${DSTAMP}" />
+        <mkdir dir="${work.dir}" />
+        <mkdir dir="${work.dir}/tools" />
+        <mkdir dir="${work.dir}/projects" />
+        <mkdir dir="${work.dir}/ant" />
+        <mkdir dir="${work.dir}/workspace" />
+        
+        <copy todir="${work.dir}/meta/ant">
+            <fileset dir="${source.dir}/xml/targets" />
+        </copy>
+        <copy todir="${work.dir}/meta/headers">
+            <fileset dir="${source.dir}/headers" />
+        </copy>
+        
+        <copy file="${source.dir}/spell" todir="${work.dir}/meta/spell" />
+        
+        
+        <copy file="${source.dir}/build.properties" todir="${work.dir}/projects" />
+        <copy file="${source.dir}/environment.properties" todir="${work.dir}" />
+        <copy file="${source.dir}/system.properties" todir="${work.dir}" />
+        <copy file="${source.dir}/user.properties" todir="${work.dir}/projects" />
 
-	<target name="build">
-		<echo>Not a conventional project, nothing to build here. Target "install" if your projects don't build.</echo>
-	</target>
 
-	<target name="jar" depends="build">
-	</target>
-
-	<target name="install" depends="prepare, remove-old" description="Installs the Ant Build" >
-		<!-- Create the time stamp -->
-		<tstamp/>
-		<!-- Create directory structure -->
-		<mkdir dir="${ant.dir}" />
-		<mkdir dir="${targets.dir}" />
-	</target>
-
-	<target name="remove-old" description="Removes the old Build" >
-		<delete dir="${ant.dir}"/>
-	</target>
+        <copy file="${repository.dir}/jre-6.zip" todir="${work.dir}/tools" />
+        <copy file="${repository.dir}/win-amd64.zip" todir="${work.dir}/tools" />
+        
+        <zip destfile="${work.dir}/environment-${DSTAMP}.zip"
+             basedir="${work.dir}"
+             update="true"
+        />
+        
+        <rmdir dir="${work.dir}" />
+    </target>
 </project>
